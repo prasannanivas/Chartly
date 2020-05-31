@@ -4,6 +4,9 @@ import './App.css';
 import Bar from './Components/Bar';
 import Line from './Components/Line';
 import Pie from './Components/Pie';
+import Polar from './Components/Polar';
+import Doughnut from './Components/Doughnut';
+
 
 
 class app extends Component{
@@ -89,10 +92,15 @@ class app extends Component{
           <NavLink to='/bar'><button className = "btn">bar</button></NavLink>
           <NavLink to='/pie'><button className = "btn">pie</button></NavLink>
           <NavLink to='/line'><button className = "btn">line</button></NavLink>
+          <NavLink to='/polar'><button className = "btn">polar</button></NavLink>
+          <NavLink to='/doughnut'><button className = "btn">doughnut</button></NavLink>
+
           <switch>
               <Route exact path = '/bar' render = {() => <Bar data = {this.state.chartData} text = {this.state.titletext}/>}/>
               <Route exact path = '/line' render = {() => <Line data = {this.state.chartData} text = {this.state.titletext}/>}/>  
               <Route exact path = '/pie' render = {() => <Pie data = {this.state.chartData} text = {this.state.titletext}/>}/>  
+              <Route exact path = '/polar' render = {() => <Polar data = {this.state.chartData} text = {this.state.titletext}/>}/>  
+              <Route exact path = '/doughnut' render = {() => <Doughnut data = {this.state.chartData} text = {this.state.titletext}/>}/>  
           </switch>
       </div>
       </div>   

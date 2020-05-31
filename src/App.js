@@ -17,9 +17,9 @@ class app extends Component{
       chartData:{
           labels:[],
           datasets:[{
-              label : 'population',
+              label : '',
               data :[],
-              backgroundColor:['pink','olive','rgba(75, 32, 192, 0.6)','rgba(44, 192, 192, 0.6)','teal','grey','purple','violet','aqua','blue'],
+              backgroundColor:[],
           }],
       }
     }
@@ -48,8 +48,10 @@ class app extends Component{
     let Numberarr = [...this.state.chartData.labels];
     Numberarr.push(this.state.Numbervalue);
     let dupeNumberdata = this.state.chartData.datasets[0].data;
+    let dupebg = this.state.chartData.datasets[0].backgroundColor;
     dupeNumberdata.push(this.state.Numbervalue);
-    let dupeDataset = [{...this.state.chartData.datasets[0],data:dupeNumberdata}];
+    dupebg.push('rgb('+Math.floor(Math.random()*255)+', '+Math.floor(Math.random()*255)+', '+Math.floor(Math.random()*255)+')');
+    let dupeDataset = [{...this.state.chartData.datasets[0],data:dupeNumberdata, backgroundColor:dupebg}];
     let dupeChartdata = {...this.state.chartData,labels:Labelarr,datasets:dupeDataset};
     this.setState({
       chartData: dupeChartdata,

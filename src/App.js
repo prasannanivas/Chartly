@@ -13,6 +13,7 @@ class app extends Component{
   constructor(props){
     super(props);
     this.state = {
+      id : 0,
       isTitleadded : false,
       titletext : '',
       Labelvalue :'',
@@ -56,11 +57,12 @@ class app extends Component{
     dupebg.push('rgb('+Math.floor(Math.random()*255)+', '+Math.floor(Math.random()*255)+', '+Math.floor(Math.random()*255)+')');
     let dupeDataset = [{...this.state.chartData.datasets[0],data:dupeNumberdata, backgroundColor:dupebg}];
     let dupeChartdata = {...this.state.chartData,labels:Labelarr,datasets:dupeDataset};
-    this.setState({
+    this.setState(prev => ({
+      id: prev.id+1,
       chartData: dupeChartdata,
       Numbervalue:'',
       Labelvalue:'',
-    })
+    }))
   }
   submitHandler(event){
     event.preventDefault();
@@ -76,32 +78,48 @@ class app extends Component{
     })
   }
   render(){
+    const tableviewer = () => {
+      console.log(this.state.id)
+      for(let i=0;  i <=this.state.chartData.labels[this.state.id - 1];i++){
+        return(
+          <table>
+          <tr>
+            <td>{this.state.chartData.labels[i]}</td>
+            <td>{this.state.chartData.datasets[0].data[i]}</td>
+          </tr>
+        }
+          </table>
+        )
+      }}
     return(
       <div className = "App">
         {!this.state.isTitleadded? 
         <form onSubmit = {this.submitHandler}>
-          <input type = 'text' placeholder = 'title' value = {this.state.titleValue} onChange = {this.titleChangeHandler} ></input>
+          <input required type = 'text' placeholder = 'title' value = {this.state.titleValue} onChange = {this.titleChangeHandler} ></input>
           <input className = "btn" style = {{backgroundColor : 'green',color : "white"}} type = "submit"/>
         </form>:
         <form>
-          <input type = 'text' placeholder = 'Label' value = {this.state.Labelvalue} onChange = {this.LabelchangeHandler}></input>
-          <input type = 'number' placeholder = 'value' value = {this.state.Numbervalue} onChange = {this.NumberchangeHandler}/>
+          <input required type = 'text' placeholder = 'Label' value = {this.state.Labelvalue} onChange = {this.LabelchangeHandler}></input>
+          <input required type = 'number' placeholder = 'value' value = {this.state.Numbervalue} onChange = {this.NumberchangeHandler}/>
           <button className="btn bg-blue-200" style={{backgroundColor:"aqua"}} onClick = {this.saveHandler}>Save</button>
         </form>}
+        <table>
+          {tableviewer()}
+          </table>
         <div>
-          <NavLink to='/bar'><button className = "btn">bar</button></NavLink>
-          <NavLink to='/pie'><button className = "btn">pie</button></NavLink>
-          <NavLink to='/line'><button className = "btn">line</button></NavLink>
-          <NavLink to='/polar'><button className = "btn">polar</button></NavLink>
-          <NavLink to='/doughnut'><button className = "btn">doughnut</button></NavLink>
+          <NavLink exact to='/bar'><button className = "btn">bar</button></NavLink>
+          <NavLink exact to='/pie'><button className = "btn">pie</button></NavLink>
+          <NavLink exact to='/line'><button className = "btn">line</button></NavLink>
+          <NavLink exact to='/polar'><button className = "btn">polar</button></NavLink>
+          <NavLink exact to='/doughnut'><button className = "btn">doughnut</button></NavLink>
 
-          <switch>
+          <Switch>
               <Route exact path = '/bar' render = {() => <Bar data = {this.state.chartData} text = {this.state.titletext}/>}/>
               <Route exact path = '/line' render = {() => <Line data = {this.state.chartData} text = {this.state.titletext}/>}/>  
               <Route exact path = '/pie' render = {() => <Pie data = {this.state.chartData} text = {this.state.titletext}/>}/>  
               <Route exact path = '/polar' render = {() => <Polar data = {this.state.chartData} text = {this.state.titletext}/>}/>  
               <Route exact path = '/doughnut' render = {() => <Doughnut data = {this.state.chartData} text = {this.state.titletext}/>}/>  
-          </switch>
+          </Switch>
       </div>
       </div>   
     )
